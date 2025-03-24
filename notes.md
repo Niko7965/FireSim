@@ -10,8 +10,14 @@ Classes:
 
 ## How to use:
 
-make your circuit is a png file.
-Make the circuit red (255,0,0), and everything else black
+Make your circuit is a png file.
+Black (0,0,0) is wall, i.e. cannot burn
+
+Blue (0,0,255) is initially lit
+
+Green (0,255,0) is initially on cooldown, and cannot be lit for 40 frames
+
+Any other color is normal circuit, and can be lit.
 
 In the main function, we put one node on cooldown initially,
 ensuring that when the first node is lit, fire only spreads in one way

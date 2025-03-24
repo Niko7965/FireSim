@@ -7,11 +7,11 @@ from drawing import Graphics
 from graph import Graph
 
 graphics = Graphics()
-graph: Graph = load_circuit('circuit.png')
+graph: Graph = load_circuit('circuitupdated.png')
 graphics.update(graph.nodes)
 
-graph.nodes[0].ignite()
-graph.nodes[1].put_on_cooldown(40)
+# graph.nodes[0].ignite()
+# graph.nodes[1].put_on_cooldown(40)
 
 tick_no = 0
 

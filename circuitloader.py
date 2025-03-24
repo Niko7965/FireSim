@@ -6,22 +6,36 @@ from graph import Graph
 
 
 def load_circuit(filename):
-    value_matrix = value_matrix_from_file(filename)
-    return value_matrix_to_graph(value_matrix)
+    value_matrix, blue_nodes, green_nodes = value_matrix_from_file(filename)
+    graph = value_matrix_to_graph(value_matrix)
+    for node_x, node_y in blue_nodes:
+        graph.ignite_node(node_x, node_y)
+
+    for node_x, node_y in green_nodes:
+        graph.cooldown_node(node_x, node_y, 40)
+
+    return graph
 
 
 def value_matrix_from_file(filename):
     with Image.open(f'Circuits/{filename}') as img:
         pixels = img.load()
 
+        blue_nodes = []
+        green_nodes = []
+
         value_matrix = [[0 for y in range(img.size[1])] for x in range(img.size[0])]
 
         for y in range(img.size[1]):
             for x in range(img.size[0]):
-                (a, b, c, _) = pixels[x, y]
-                value_matrix[x][y] = int(math.sqrt(a * a + b * b + c * c))
+                (r, g, b, _) = pixels[x, y]
+                if r == 0 and g == 255 and b == 0:
+                    green_nodes.append((x, y))
+                if r == 0 and g == 0 and b == 255:
+                    blue_nodes.append((x, y))
+                value_matrix[x][y] = int(math.sqrt(r * r + g * g + b * b))
 
-    return value_matrix
+    return value_matrix, blue_nodes, green_nodes
 
 
 def try_add_edge(graph, value_matrix, x1, y1, x2, y2):

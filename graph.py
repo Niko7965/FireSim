@@ -7,6 +7,12 @@ class Graph:
         self.nodes: list[Node] = []
         self.node_dict = {}
 
+    def ignite_node(self, x, y):
+        self.nodes[self.node_dict[(x, y)]].ignite()
+
+    def cooldown_node(self, x, y, cooldown_time):
+        self.nodes[self.node_dict[(x, y)]].put_on_cooldown(cooldown_time)
+
     def add_node(self, x, y, flaminess):
         self.node_dict[(x, y)] = len(self.nodes)
         self.nodes.append(Node(x, y, flaminess))
