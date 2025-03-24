@@ -1,6 +1,7 @@
 from time import sleep
 
 import pygame
+from pygame_screen_record import ScreenRecorder
 
 from circuitloader import load_circuit
 from drawing import Graphics
@@ -15,16 +16,22 @@ graphics.update(graph.nodes)
 
 tick_no = 0
 
-while True:
-    pygame.event.get()
-    sleep(0.1)
+recorder = ScreenRecorder()
+recorder.start_rec(30)
 
-    for node in graph.nodes:
-        node.update()
+try:
+    while True:
+        pygame.event.get()
+        sleep(0.1)
 
-    tick_no += 1
-    print(tick_no)
+        for node in graph.nodes:
+            node.update()
 
-    graphics.update(graph.nodes)
+        tick_no += 1
+        print(tick_no)
 
-input("Press any key to end")
+        graphics.update(graph.nodes)
+except KeyboardInterrupt:
+    recorder.stop_rec().stop_rec()
+    recorder.save_recording("Mallis_first_record1ng.mp4")
+    pygame.quit()
